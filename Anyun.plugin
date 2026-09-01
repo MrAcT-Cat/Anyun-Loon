@@ -1,11 +1,25 @@
 #!name=Anyun VPN
-#!desc=Anyun 自动更新订阅
-#!system=ios
+#!desc=Anyun VPN 自动节点订阅
+#!author=MrAcT-Cat
+#!homepage=https://github.com/MrAcT-Cat/Anyun-Loon
+#!system=iOS
+#!loon_version=3.5.1
+#!tag=VPN,Anyun,订阅
+#!type=normal
+
+[Argument]
+
+enabled = switch,true,tag=自动更新,desc=是否启用 Anyun 自动更新
+
+subscriptionName = input,"mract",tag=订阅名称,desc=订阅名称，默认 mract
+
+cronExpression = input,"*/20 * * * *",tag=更新周期,desc=Cron 自动更新周期
+
 
 [Script]
 
-request if ${url} ~= /^https?:\/\/sub\.store\/download\/mract$/i then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/mract-sub.js") with tag="Mract Subscription", timeout=20
+request if ${url} ~= /^https?:\/\/sub\.store\/download\/mract$/i then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/mract-sub.js") with enable=${enabled}, tag="MrAcT mract订阅", timeout=20
 
-generic then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js") with tag="Anyun 手动更新", timeout=400
+generic then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js", {${subscriptionName}}) with enable=${enabled}, tag="Anyun 手动更新", timeout=400
 
-cron "*/20 * * * *" then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js") with tag="Anyun 自动更新", timeout=400
+cron ${cronExpression} then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js", {${subscriptionName}}) with enable=${enabled}, tag="Anyun 自动更新", timeout=400
