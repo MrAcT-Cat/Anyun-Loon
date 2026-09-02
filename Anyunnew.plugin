@@ -16,6 +16,6 @@ policy = policy,DIRECT,tag=运行策略,desc=脚本更新节点时使用的策�
 [Script]
 request if ${url} ~= /^https?:\/\/sub\.store\/download\/mract$/i then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/mract-sub.js") with enable=${enabled}, tag="MrAcT mract订阅", timeout=20
 
-generic then script("anyunvpn.js", argument={policy}) with enable=${enabled}, tag="Anyun 手动更新", timeout=400
+generic then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js", argument={policy}) with enable=${enabled}, tag="Anyun 手动更新", timeout=400
 
-cron ${cronExpression} then script("anyunvpn.js", argument={policy}) with enable=${enabled}, tag="Anyun 自动更新", timeout=400
+cron ${cronExpression} then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js", argument={policy}) with enable=${enabled}, tag="Anyun 自动更新", timeout=400
