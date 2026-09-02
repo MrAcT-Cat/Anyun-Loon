@@ -4,18 +4,16 @@
 #!homepage = https://github.com/MrAcT-Cat/Anyun-Loon
 #!openurl = https://sub.store/download/mract
 #!system = iOS,iPadOS
-#!loon_version = 3.5.1
-#!tag = VPN,Anyun,订阅
-#!type = normal
+#!loon_version = 3.2.4(787)
 
 [Argument]
-enabled = switch, true, tag="自动更新", desc="是否启用 Anyun 自动更新"
-cronExpression = input, "*/20 * * * *", tag="更新周期", desc="Cron 自动更新周期"
-policyName = policy, "DIRECT", tag="运行策略", desc="选择脚本更新时使用的策略或节点"
+arg1 = switch,true,tag=自动更新
+arg2 = input,"*/20 * * * *",tag=更新周期
+arg3 = policy,DIRECT,tag=运行策略
 
 [Script]
-request if ${url} ~= /^https?:\/\/sub\.store\/download\/mract$/i then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/mract-sub.js") with enable=${enabled}, tag="MrAcT mract订阅", timeout=20
+http-request ^https?:\/\/sub\.store\/download\/mract,script-path=https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/mract-sub.js,timeout=20,enable={arg1},tag=MrAcT mract订阅
 
-generic then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js") with enable=${enabled}, argument=${policyName}, tag="Anyun 手动更新", timeout=400
+generic script-path=https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js,timeout=400,enable={arg1},tag=Anyun 手动更新,argument={arg3}
 
-cron ${cronExpression} then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js") with enable=${enabled}, argument=${policyName}, tag="Anyun 自动更新", timeout=400
+cron {arg2},script-path=https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/anyunvpn.js,timeout=400,enable={arg1},tag=Anyun 自动更新,argument={arg3}
