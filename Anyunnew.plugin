@@ -11,7 +11,7 @@
 [Argument]
 enabled = switch,true,tag=自动更新,desc=是否启用 Anyun 自动更新
 cronExpression = input,"*/20 * * * *",tag=更新周期,desc=Cron 自动更新周期
-policy = policy,DIRECT,tag=运行策略,desc=脚本更新节点时使用的策略组或节点
+policy = select,"DIRECT","PROXY",tag=运行策略,desc=选择脚本走直连还是代理策略
 
 [Script]
 request if ${url} ~= /^https?:\/\/sub\.store\/download\/mract$/i then script("https://raw.githubusercontent.com/MrAcT-Cat/Anyun-Loon/main/mract-sub.js") with enable=${enabled}, tag="MrAcT mract订阅", timeout=20
